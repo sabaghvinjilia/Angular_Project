@@ -1,0 +1,60 @@
+აქ უნდა ჩაწეროთ schedule.component.html:
+
+<div class="worker-dashboard">
+  <h2>Worker Dashboard</h2>
+  <div class="navigation">
+    <button (click)="previousWeek()">« Previous Week</button>
+    <button (click)="nextWeek()">Next Week »</button>
+  </div>
+  <h3>{{ currentWeekRange }}</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th *ngFor="let day of weekDays">{{ day | date: 'EEE, MMM d' }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobTitles">
+        <td>{{ job }}</td>
+        <td *ngFor="let day of weekDays">
+          <div *ngIf="getShiftsForDay(job, day).length > 0">
+            <div
+              *ngFor="let shift of getShiftsForDay(job, day)"
+              class="shift"
+            >
+              {{ shift.worker }} - {{ shift.shiftType }}
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="schedule-request">
+    <h3>Create Schedule Request</h3>
+    <form (ngSubmit)="addScheduleRequest()">
+      <label for="date">Choose Date:</label>
+      <input type="date" id="date" [(ngModel)]="selectedDate" name="date" required />
+      <label>Shift:</label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="selectedShiftType"
+          name="shiftType"
+          value="Morning"
+        />
+        Morning
+      </label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="selectedShiftType"
+          name="shiftType"
+          value="Evening"
+        />
+        Evening
+      </label>
+      <button type="submit">Add Schedule</button>
+    </form>
+  </div>
+</div>

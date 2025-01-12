@@ -1,0 +1,86 @@
+აქ უნდა ჩაწეროთ schedule.component.ts:
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-schedule',
+  templateUrl: './schedule.component.html',
+  styleUrls: ['./schedule.component.css'],
+})
+export class ScheduleComponent implements OnInit {
+  currentDate = new Date();
+  weekDays: Date[] = [];
+  currentWeekRange: string = '';
+  jobTitles = ['Lecturer', 'Student'];
+  schedules: any[] = []; 
+  selectedDate!: string;
+  selectedShiftType: 'Morning' | 'Evening' = 'Morning';
+
+  ngOnInit() {
+    this.updateWeekDays();
+    this.fetchSchedules();
+  }
+
+  updateWeekDays() {
+    const startOfWeek = this.getStartOfWeek(this.currentDate);
+    this.weekDays = Array.from({ length: 7 }, (_, i) => new Date(startOfWeek.setDate(startOfWeek.getDate() + i)));
+    this.currentWeekRange = `${this.weekDays[0].toDateString()} - ${this.weekDays[6].toDateString()}`;
+  }
+
+  getStartOfWeek(date: Date): Date {
+    const start = new Date(date);
+    start.setDate(start.getDate() - start.getDay());
+    start.setHours(0, 0, 0, 0);
+    return start;
+  }
+
+  fetchSchedules() {
+
+    this.schedules = [
+      {
+        job: 'Lecturer',
+        worker: 'Irakli Chabiev',
+        startTime: '2023-12-19T08:00:00',
+        endTime: '2023-12-19T16:00:00',
+      },
+      {
+        job: 'Student',
+        worker: 'Tname Tsurname',
+        startTime: '2023-12-18T16:00:00',
+        endTime: '2023-12-18T23:00:00',
+      },
+    ];
+  }
+
+  getShiftsForDay(job: string, date: Date) {
+    return this.schedules
+      .filter(
+        (schedule) =>
+          schedule.job === job &&
+          new Date(schedule.startTime).toDateString() === date.toDateString()
+      )
+      .map((schedule) => ({
+        worker: schedule.worker,
+        shiftType:
+          new Date(schedule.startTime).getHours() < 16 ? 'Morning' : 'Evening',
+      }));
+  }
+
+  previousWeek() {
+    this.currentDate.setDate(this.currentDate.getDate() - 7);
+    this.updateWeekDays();
+  }
+
+  nextWeek() {
+    this.currentDate.setDate(this.currentDate.getDate() + 7);
+    this.updateWeekDays();
+  }
+
+  addScheduleRequest() {
+
+    console.log({
+      date: this.selectedDate,
+      shiftType: this.selectedShiftType,
+    });
+  }
+}
