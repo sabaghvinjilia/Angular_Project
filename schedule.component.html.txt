@@ -1,4 +1,4 @@
-აქ უნდა ჩაწეროთ schedule.component.html:
+ეს უნდა ჩაწეროთ schedule.component.html:
 
 <div class="worker-dashboard">
   <h2>Worker Dashboard</h2>

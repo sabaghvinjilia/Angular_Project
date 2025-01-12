@@ -1,2 +1,2 @@
-
+ტერმინალში ჩაწერეთ
 cd ./src/app/components -> ng generate component schedule

@@ -1,4 +1,4 @@
-აქ უნდა ჩაწეროთ schedule.component.css:
+ეს უნდა ჩაწეროთ schedule.component.css:
 
 .worker-dashboard {
   font-family: Arial, sans-serif;
